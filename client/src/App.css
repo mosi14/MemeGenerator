@@ -36,3 +36,49 @@
     transform: rotate(360deg);
   }
 }
+
+
+.memeRow{
+  margin-top: 45px;
+}
+
+.memeImage{
+  cursor: pointer;
+}
+
+.memeModal{
+  text-align: center;
+}
+
+.memeModal_image{
+  position: relative;
+  width: 400px;
+  height: 400px;
+}
+
+.memeModal_firstText{
+  position: absolute;
+  font-size: 22px;
+  font-weight: 500;
+  top: 10px;
+  left: 30%;
+}
+.memeModal_secondText{
+  position: absolute;
+  font-weight: 500;
+  font-size: 22px;
+  top: 50%;
+  left: 30%;
+}
+.memeModal_thirdText{
+  position: absolute;
+  font-size: 22px;
+  font-weight: 500;
+  bottom: 10px;
+  left: 30%;
+}
+
+
+.font-link {
+  font-family: 'Otomanopee One', sans-serif;
+}
