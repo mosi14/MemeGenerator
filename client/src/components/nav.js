@@ -1,20 +1,28 @@
 import { Navbar, Container, Nav } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 
-const Navak = () => {
+import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { MylogInButton, MylogOutButton } from "./logIn";
+
+const Navak = (props) => {
   const [showGenerator, setShowGenerator] = useState(true);
   const [ShowLogin, setShowLogin] = useState(false);
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
-  return (
-    <>
-      <Navbar bg="primary" variant="dark" >
+  if (props.isLoggedIn) {
+    return (
+      // <Container fluid className="mx-0 px-0">
+      //      <Navbar bg="dark" variant="dark" className="justify-content-between align-items-center">
+      //     <Link to={'/Administrator'}>
+      //         <Navbar.Brand id="brand">
+      //             {/* <RiSurveyFill id="logo" className="align-top" />{' '} */}
+      //             <span>Survey</span>
+      //         </Navbar.Brand>
+      //     </Link>
+      //     <span id="wellcome">Wellcome admin {props.username}</span>
+      //     <MylogOutButton logOut={props.logOut} />
+      // </Navbar>
+      // </Container>
+      <Navbar bg="primary" variant="dark">
         <Container>
           <Navbar.Brand href="/">Home</Navbar.Brand>
           <Nav className="me-auto">
@@ -24,9 +32,9 @@ const Navak = () => {
               ""
             )}
             {ShowLogin === false ? (
-              <Nav.Link onClick={handleShow}>Login</Nav.Link>
+              <Nav.Link href="/login">LogOut</Nav.Link>
             ) : (
-              <Nav.Link >Logout</Nav.Link>
+              <Nav.Link>Logout</Nav.Link>
             )}
 
             {/* <Nav.Link href="#features">Features</Nav.Link>
@@ -34,33 +42,42 @@ const Navak = () => {
           </Nav>
         </Container>
       </Navbar>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-              <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
-              </Form.Text>
-            </Form.Group>
+    );
+  } else {
+    return (
+      <Navbar bg="primary" variant="dark">
+        <Container>
+          <Navbar.Brand href="/">Home</Navbar.Brand>
+          <Nav className="me-auto">
+            {showGenerator === true ? (
+              <Nav.Link href="/generator">Create Meme</Nav.Link>
+            ) : (
+              ""
+            )}
+            {ShowLogin === false ? (
+              <Nav.Link href="/login">Login</Nav.Link>
+            ) : (
+              <Nav.Link>Logout</Nav.Link>
+            )}
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
-    </>
-  );
+            {/* <Nav.Link href="#features">Features</Nav.Link>
+        <Nav.Link href="#pricing">Pricing</Nav.Link> */}
+          </Nav>
+        </Container>
+      </Navbar>
+      // <Container fluid className="mx-0 px-0">
+      //   <Navbar bg="dark" variant="dark" className="justify-content-between">
+      //     <Link to={"/"}>
+      //       <Navbar.Brand>
+      //         {/* <RiSurveyFill id="logo" className="align-top" />{' '} */}
+      //         <span>Survey</span>
+      //       </Navbar.Brand>
+      //     </Link>
+      //     <MylogInButton isLoggedIn={props.isLoggedIn} />
+      //   </Navbar>
+      // </Container>
+    );
+  }
 };
 
 export default Navak;

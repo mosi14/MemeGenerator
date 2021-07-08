@@ -1,0 +1,11 @@
+post   http://localhost:3001/api/sessions/mosi/1234
+
+###
+
+
+post   http://localhost:3001/api/logout
+
+
+####
+
+get http://localhost:3001/api/memeList/

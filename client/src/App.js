@@ -9,14 +9,36 @@ import {
 } from "react-router-dom";
 import Home from "./components/home";
 import Navak from "./components/nav";
-import Generator from './components/generator';
+import Generator from "./components/generator";
+import { MyLoginForm } from "./components/logIn";
+import API from './API';
 
 function App() {
+  const [errMessage, seterrMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loggedUsername, setLoggedUsername] = useState('');
+
+  const logIn = async (credentials) => {
+    try {
+      const username = await API.logIn(credentials);
+      setLoggedUsername(username);
+      seterrMessage('');
+      setIsLoggedIn(true);
+    } catch (err) {
+      seterrMessage(err);
+    }
+  }
+
+  const logOut = async () => {
+    await API.logOut();
+    setIsLoggedIn(false);
+    setLoggedUsername('');
+  }
+
   return (
     <Router>
       <>
-        <Navak />
+        <Navak  isLoggedIn={isLoggedIn} logOut={logOut} username={loggedUsername} />
         <Switch>
           <Route
             exact
@@ -33,7 +55,22 @@ function App() {
                 {isLoggedIn ? (
                   <Redirect to={`/Administrator`} />
                 ) : (
-                  <Generator/>
+                  <Generator />
+                )}
+              </>
+            )}
+          />
+
+          <Route
+            exact
+            path="/login"
+            render={() => (
+              <>
+                {isLoggedIn ? (
+                  <Redirect to={`/Administrator`} />
+                ) : (
+                  // <MyLoginForm />
+                  <MyLoginForm logIn={logIn} errMessage={errMessage} seterrMessage={seterrMessage} />
                 )}
               </>
             )}
