@@ -14,16 +14,6 @@ const Home = (props) => {
   const memeList= props.memeList;
  console.log("memelist home:  " + props.memeList);
 
-  // useEffect(() => {
-  //   API.getMemes()
-  //     .then((memes) => {
-  //       const memeListing = [...memes]
-  //       setMemeList(memeListing);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
 
   return (
     <>

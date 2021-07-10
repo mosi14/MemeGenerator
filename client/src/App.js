@@ -86,13 +86,13 @@ function App() {
           <Route
             exact
             path="/"
-            render={() => (<Home isLoggedIn={loggedIn} memeList={memeList} />)}
+            render={() => (<Home  isLoggedIn={loggedIn}  memeList={memeList} />)}
           />
           <Route
             exact
             path="/generator"
             render={() => (
-              <>{loggedIn ? <Redirect to={`/admin`} /> : <Generator />}</>
+              <>{loggedIn ?  <Generator /> : ""}</>
             )}
           />
 
