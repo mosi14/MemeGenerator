@@ -1,4 +1,6 @@
 import Meme from "./classes/Meme";
+
+
 async function logIn(credentials) {
   let response = await fetch(`/api/sessions`, {
     method: "POST",
@@ -55,6 +57,8 @@ async function getMemes() {
   console.log(memes)
   return memes;
 }
+
+
 
 
 async function createMeme(params) {

@@ -27,8 +27,6 @@ passport.use(
   })
 );
 
-
-
 // serialize and de-serialize the user (user object <-> session)
 // we serialize the user id and we store it in the session: the session is very small in this way
 passport.serializeUser((user, done) => {
@@ -58,7 +56,7 @@ const app = new express();
 const port = 3001;
 
 // set-up the middlewares
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(express.json());
 
 // custom middleware: check if a given request is coming from an authenticated user
@@ -78,22 +76,23 @@ app.use(
   })
 );
 
-
 // then, init passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Login --> POST /sessions
+/*** Users APIs ***/
+
+// POST /sessions
+// login
 app.post("/api/sessions", function (req, res, next) {
   console.log("server -> api/session");
   passport.authenticate("local", (err, user, info) => {
-    if (err) 
-    { 
+    if (err) {
       console.log(err);
       return next(err);
     }
-    if (!user) { 
-      console.log(`user does not exist ${user}`)
+    if (!user) {
+      console.log(`user does not exist ${user}`);
       // display wrong login messages
       return res.status(401).json(info);
     }
@@ -121,22 +120,18 @@ app.get("/api/sessions/current", (req, res) => {
   } else res.status(401).json({ error: "Unauthenticated user!" });
 });
 
+/*** Meme List APIs ***/
+
 // GET /api/memePubliclist
 app.get("/api/memeList", (req, res) => {
   dao
     .listPublicMemes()
-    .then(memeslist => {res.json(memeslist) })
+    .then((memeslist) => {
+      res.json(memeslist);
+    })
     .catch(() => res.status(500).end());
 });
 
-app.get('/api/surveys', (req, res) => {
-  dao.getSurveys()
-    .then(surveys => {
-      res.json(surveys);
-    }).catch(err => {
-      res.status(500).end();
-    })
-});
 // GET /api/memeAllList
 app.get("/api/allMemeList", isLoggedIn, (req, res) => {
   dao
@@ -145,10 +140,24 @@ app.get("/api/allMemeList", isLoggedIn, (req, res) => {
     .catch(() => res.status(500).end());
 });
 
+// GET /api/meme/<id>
+app.get('/api/meme/:id', async (req, res) => {
+  try {
+    const result = await dao.getMeme(req.params.id);
+    if(result.error)
+      res.status(404).json(result);
+    else
+      res.json(result);
+  } catch(err) {
+    res.status(500).end();
+  }
+});
+
+
+// Post /api/create
 app.post("/api/create", async (req, res) => {
-  console.log("/api/create")
+  console.log("/api/create");
   console.log(req.body);
-  // console.log(req);
   try {
     const meme = {
       imgId: req.body.imgId,
@@ -168,39 +177,6 @@ app.post("/api/create", async (req, res) => {
     res.status(500).end();
   }
 });
-
-// POST /api/create
-// app.post('/api/create',
-// isLoggedIn,
-// [
-//   check(['userId']).isInt(),
-//   check(['privacy']).isBoolean()
-// ],
-// async (req, res) => {
-//   const errors = validationResult(req).formatWith(errorFormatter); // format error message
-//   if (!errors.isEmpty()) {
-//     return res.status(422).json({ error: errors.array().join(", ")  }); // error message is a single string with all error joined together
-//   }
-
-//   const meme = {
-//     imgId: req.body.imgId,
-//     txtColor: req.body.txtColor,
-//     txtFont: req.body.txtFont,
-//     title: req.body.title,
-//     text1: req.body.text1,
-//     text2: req.body.text2,
-//     text3: req.body.text3,
-//     privacy: req.body.privacy,
-//     userId: req.user.id // WARN: user id in the req.body.user does not mean anything because the loggedIn user can change only its owns
-//   };
-
-//   try {
-//     const result = await dao.generateMeme(meme);
-//     res.json(result);
-//   } catch (err) {
-//     res.status(503).json({ error: `Database error during the creation of new task: ${err}.` });
-//   }
-// });
 
 // activate the server
 app.listen(port, () => {

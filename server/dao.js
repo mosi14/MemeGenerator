@@ -1,45 +1,19 @@
 "use strict";
 
-/* Data Access Object (DAO) module for accessing tasks */
-
 const db = require("./db");
 const bcrypt = require("bcrypt");
 
-const dayjs = require("dayjs");
-
-// exports.getUser = (username, password) => {
-//   return new Promise((resolve, reject) => {
-//       const sql = "SELECT * FROM users WHERE username = ?";
-//       db.get(sql, [username], (err, row) =>
-//           if (err)
-//               reject(err);
-//           else if (row === undefined)
-//               resolve(false);
-//           else {
-//               bcrypt.compare(password, row.hash)
-//                   .then(result => {
-//                       if (result)
-//                           resolve({ username: row.username });
-//                       else
-//                           resolve(false);
-//                   });
-//           }
-//       })
-//   });
-
 exports.getUserById = (id) => {
   return new Promise((resolve, reject) => {
-    const sql = 'SELECT * FROM users WHERE id = ?';
-      db.get(sql, [id], (err, row) => {
-        if (err) 
-          reject(err);
-        else if (row === undefined)
-          resolve({error: 'User not found.'});
-        else {
-          // by default, the local strategy looks for "username": not to create confusion in server.js, we can create an object with that property
-          const user = {id: row.id, username: row.email, name: row.name}
-          resolve(user);
-        }
+    const sql = "SELECT * FROM users WHERE id = ?";
+    db.get(sql, [id], (err, row) => {
+      if (err) reject(err);
+      else if (row === undefined) resolve({ error: "User not found." });
+      else {
+        // by default, the local strategy looks for "username": not to create confusion in server.js, we can create an object with that property
+        const user = { id: row.id, username: row.username, name: row.name };
+        resolve(user);
+      }
     });
   });
 };
@@ -64,8 +38,6 @@ exports.getUser = (username, password) => {
   });
 };
 
-// WARNING: all DB operations must check that the tasks belong to the loggedIn user, thus include a WHERE user=? check !!!
-
 // get all public meme for user without Auth
 exports.listPublicMemes = () => {
   return new Promise((resolve, reject) => {
@@ -79,7 +51,7 @@ exports.listPublicMemes = () => {
       if (rows == undefined) {
         resolve({ error: "There is not any meme." });
       } else {
-        console.log(rows)
+        console.log(rows);
         // const memelist = { ...rows };
         // const memeList = rows.map(
         //   (row) =>
@@ -99,8 +71,6 @@ exports.listPublicMemes = () => {
         //       row.position2,
         //       row.position3,
         //       row.numTxt}
-              
-            
         // );
         resolve(rows);
       }
@@ -109,7 +79,6 @@ exports.listPublicMemes = () => {
 };
 
 // get all meme for user creator
-// get all public meme for user without Auth
 exports.listAllMemes = () => {
   return new Promise((resolve, reject) => {
     const sql = "SELECT * FROM memeList m, imgRule r where m.imgId = r.imgId";
@@ -121,27 +90,26 @@ exports.listAllMemes = () => {
       if (rows == undefined) {
         resolve({ error: "There is not any meme." });
       } else {
-        const memelist = { ...rows };
-        resolve(memelist);
+        console.log(rows);
+        resolve(rows);
       }
     });
   });
 };
 
-// get the course identified by {code}
-exports.getTask = () => {
+// get the meme identified by {id}
+exports.getMeme = (id) => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM Users ";
-    db.get(sql, [], (err, row) => {
+    const sql = "SELECT * FROM memeList WHERE id = ?";
+    db.get(sql, [id], (err, row) => {
       if (err) {
         reject(err);
         return;
       }
       if (row == undefined) {
-        resolve({ error: "Task not found." });
+        resolve({ error: "There is not eny meme." });
       } else {
-        const task = { ...row };
-        resolve(task);
+        resolve(row);
       }
     });
   });
@@ -172,65 +140,17 @@ exports.generateMeme = (meme) => {
           reject(err);
           return;
         }
-        // resolve(this.changes);
         resolve(true);
       }
     );
   });
 };
 
-// exports.uploadFilledSurvey = async (survey, username, adminUsername, IDadminsurvey) => {
-//   try {
-//       console.log(username)
-//       let id = await getMaxIDFilledSurvey();
-//       id++;
-//       return new Promise((resolve, reject) => {
-//           const sql = "INSERT INTO FILLEDSURVEY (USERNAME, JSONSURVEY, IDsurvey, ADMINUSERNAME, IDadminsurvey) VALUES(?, ? ,? ,?, ?)";
-//           db.run(sql, [username, survey, id, adminUsername, IDadminsurvey], (err) => {
-//               if (err)
-//                   reject(err);
-//               else
-//                   resolve(this.changes);
-//           });
-//       });
-//   } catch (err) {
-//       throw (err);
-//   }
-
-// }
-
-// update an existing task
-exports.updateTask = (user, id, task) => {
-  return new Promise((resolve, reject) => {
-    const sql =
-      "UPDATE tasks SET description = ?, important = ?, private = ?, deadline = ?, completed = ? WHERE id = ? and user = ?";
-    db.run(
-      sql,
-      [
-        task.description,
-        task.important,
-        task.private,
-        task.deadline,
-        task.completed,
-        id,
-        user,
-      ],
-      function (err) {
-        if (err) {
-          reject(err);
-          return;
-        }
-        resolve(exports.getTask(id)); // changed from resolve(exports.getTask(this.lastID) because of error "not found" (wrong lastID)
-      }
-    );
-  });
-};
-
 // delete an existing task
-exports.deleteTask = (user, id) => {
+exports.deleteMeme = (user, id) => {
   return new Promise((resolve, reject) => {
-    const sql = "DELETE FROM tasks WHERE id = ? and user = ?";
-    db.run(sql, [id, user], (err) => {
+    const sql = "DELETE FROM memeList WHERE id = ? ";
+    db.run(sql, [id], (err) => {
       if (err) {
         reject(err);
         return;
@@ -238,24 +158,3 @@ exports.deleteTask = (user, id) => {
     });
   });
 };
-
-class Meme{
-  constructor(id, imgId, txtColor, title, text1, text2, text3, privacy, userId, txtFont, rId,position1, position2,position3,numTxt)
-  {
-      this.id = id;
-      this.imgId = imgId;
-      this.txtColor = txtColor;
-      this.title = title;
-      this.text1 = text1;
-      this.text2 = text2;
-      this.text3 = text3;
-      this.privacy = privacy;
-      this.userId = userId;
-      this.txtFont = txtFont;
-      this.rId = rId;
-      this.position1 = position1;
-      this.position2 = position2;
-      this.position3 = position3;
-      this.numTxt = numTxt;
-  }
-}
