@@ -1,32 +1,30 @@
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import API from "../API";
+// import Col from "react-bootstrap/Col";
+// import Card from "react-bootstrap/Card";
+// import Button from "react-bootstrap/Button";
+// import Modal from "react-bootstrap/Modal";
+// import API from "../API";
 import Meme from "./meme";
 
-const Home = () => {
+const Home = (props) => {
  
-  const [showButton, setshowButton] = useState(false);
+  //const [showButton, setshowButton] = useState(false);
+  const memeList= props.memeList;
+ console.log("memelist home:  " + props.memeList);
 
- 
-  const [memeList, setMemeList] = useState([]);
+  // useEffect(() => {
+  //   API.getMemes()
+  //     .then((memes) => {
+  //       const memeListing = [...memes]
+  //       setMemeList(memeListing);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
-  useEffect(() => {
-    API.getMemes()
-      .then((memes) => {
-        console.log(memes)
-        const memeListing = [...memes]
-        setMemeList(memeListing);
-        console.log(memeList)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
   return (
     <>
       <Container fluid>

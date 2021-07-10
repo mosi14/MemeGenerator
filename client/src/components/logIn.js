@@ -39,7 +39,6 @@ function MyLoginForm(props) {
   };
 
   return (
-
     <Container>
       <Row className="mt-5  justify-content-center">
         <Col md={6}>
@@ -66,13 +65,25 @@ function MyLoginForm(props) {
                 onChange={(ev) => setPassword(ev.target.value)}
               />
             </FormGroup>
-             {InvalidCredentialMessage.length===0 ?  '' : <Alert variant="danger" className='mt-3'>{InvalidCredentialMessage}</Alert>}
-            {props.errMessage.length===0 ? '' : <Alert variant="danger" className='mt-3'>{props.errMessage}</Alert>}
+            {InvalidCredentialMessage.length === 0 ? (
+              ""
+            ) : (
+              <Alert variant="danger" className="mt-3">
+                {InvalidCredentialMessage}
+              </Alert>
+            )}
+            {props.errMessage.length === 0 ? (
+              ""
+            ) : (
+              <Alert variant="danger" className="mt-3">
+                {props.errMessage}
+              </Alert>
+            )}
             <Button
               variant="success"
               id="finalLogInButton"
               onClick={handleLogIn}
-             // type="submit"
+              // type="submit"
             >
               Log In
             </Button>
@@ -86,9 +97,7 @@ function MyLoginForm(props) {
 function MylogInButton(props) {
   return (
     <Link to={"/login"}>
-      <Button id="loginBotton" variant="outline-success">
-        Log as Administrator
-      </Button>
+      <Button id="loginBotton">Login</Button>
     </Link>
   );
 }
@@ -97,16 +106,16 @@ function MylogOutButton(props) {
   const handleLogOut = (event) => {
     event.preventDefault();
     props.logOut();
+    console.log("logoutasa");
   };
 
   return (
     <Link to={"/"}>
       <Button
-        id="logOutBotton"
-        variant="outline-danger"
+        id="logOutBotton"     
         onClick={(event) => handleLogOut(event)}
       >
-        Log Out
+        Log out
       </Button>
     </Link>
   );

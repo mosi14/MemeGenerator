@@ -25,14 +25,27 @@ async function logIn(credentials) {
 }
 
 async function logOut() {
-  await fetch("/api/logout");
+  await fetch('/api/sessions/current', { method: 'DELETE' });
 }
+
+async function getUserInfo() {
+  const response = await fetch( 'api/sessions/current');
+  const userInfo = await response.json();
+  if (response.ok) {
+    return userInfo;
+  } else {
+    throw userInfo;  // an object with the error coming from the server
+  }
+}
+
+
+
 
 async function getMemes() {
   const response = await fetch("/api/memeList");
   if (!response.ok) throw new Error(response.statusText);
   const memesJson = await response.json();
-  console.log(memesJson)
+  //return memesJson.map((m) => Meme.from(m));
   const memes = memesJson.map(
     (l) =>
       new Meme(
@@ -53,9 +66,7 @@ async function getMemes() {
         l.numTxt
       )
   );
-  // return memes.map((e) => ({ ...e,l.coursecode: e.code }));
-  console.log(memes)
-  return memes;
+ return memes;
 }
 
 
@@ -81,5 +92,6 @@ async function createMeme(params) {
   });
 }
 
-const API = { logIn, logOut, getMemes, createMeme };
+
+const API = { logIn, logOut, getMemes, createMeme, getUserInfo };
 export default API;

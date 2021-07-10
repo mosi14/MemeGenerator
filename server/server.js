@@ -110,6 +110,10 @@ app.post("/api/sessions", function (req, res, next) {
 // Logout --> DELETE /sessions/current
 app.delete("/api/sessions/current", (req, res) => {
   req.logout();
+  console.log("servetlpgout");
+
+
+  
   res.end();
 });
 
@@ -150,6 +154,16 @@ app.get('/api/meme/:id', async (req, res) => {
       res.json(result);
   } catch(err) {
     res.status(500).end();
+  }
+});
+
+// DELETE /api/exams/<id>
+app.delete('/api/meme/:id', isLoggedIn, async (req, res) => {
+  try {
+    await dao.deleteMeme(req.params.id, req.user.id);
+    res.status(204).end();
+  } catch(err) {
+    res.status(503).json({ error: `Database error during the deletion of exam ${req.params.code}.`});
   }
 });
 
