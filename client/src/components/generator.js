@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Image, Container, Row, Col, Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./generator.css";
+import API from '../API'
 
 const MemeGenerate = () => {
   const [imgShow, setImgShow] = useState(1);
@@ -11,10 +12,60 @@ const MemeGenerate = () => {
   const [font, setFont] = useState("font-1");
   const [color, setColor] = useState("color-1");
 
+  const handleErrors = (err) => {
+    if(err.errors)
+      console.log(err.errors[0].msg)
+      //setMessage({msg: err.errors[0].msg + ': ' + err.errors[0].param, type: 'danger'});
+    else
+    console.log(err.error)
+      //setMessage({msg: err.error, type: 'danger'});
+  }
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+  //   const form = event.currentTarget;
+  //   // console.log(this.state.authUser.name);
+  //   if (!form.checkValidity()) {
+  //     form.reportValidity();
+  //   } else {
+  //     let rent = Object.assign({}, this.state);
+
+  //     let formErrors = { ...this.state.formErrors };
+  //     if (!(rent.startDate && rent.endDate &&
+  //       rent.startDate < rent.endDate && rent.startDate >= new Date().toISOString().slice(0, 10))) {
+  //       formErrors.startDate = "Invalid Start Date!";
+  //       formErrors.endDate = "Invalid End Date!";
+  //     } else {
+  //       formErrors.startDate = "";
+  //       formErrors.endDate = "";
+  //     }
+  //     if (rent.extraDrivers < 0) {
+  //       formErrors.extraDriver = "The number of drivers cannot be negative!";
+  //     } else {
+  //       formErrors.extraDriver = "";
+  //     }
+  //     await this.setState({ formErrors }, () => console.log(this.state.formErrors));
+  //     if (this.state.formErrors.startDate === "" &&
+  //       this.state.formErrors.endDate === "" &&
+  //       this.state.formErrors.extraDriver === "") {
+  //       await this.setState({ isValid: true });
+  //     } else {
+  //       await this.setState({ isValid: false });
+  //       form.reportValidity();
+  //       return;
+  //     }
+  // }
+
+  const createMeme = (meme) => {
+    API.createMeme(meme)
+      .then(() => {
+      }).catch(err => handleErrors(err) );
+  }
+
   return (
     <>
       <Container>
-        <Form>
+        <Form method="POST" id="frmReserve" >
           <Row className="mt-5">
             <Col>
               <Form.Group
@@ -29,34 +80,36 @@ const MemeGenerate = () => {
                 <Form.Control type="text" />
 
                 <br />
-                <Form.Label column sm="2">
-                  Text1
-                </Form.Label>
+                     <>
+                     <Form.Label column sm="2">
+                     Text1
+                   </Form.Label>
 
-                <Form.Control
-                  type="text"
-                  onChange={(ev) => setText1(ev.target.value)}
-                />
+                   <Form.Control
+                     type="text"
+                     onChange={(ev) => setText1(ev.target.value)}
+                   />
 
-                <br />
-                <Form.Label column sm="2">
-                  Text2
-                </Form.Label>
+                   <br />
+                   <Form.Label column sm="2">
+                     Text2
+                   </Form.Label>
 
-                <Form.Control
-                  type="text"
-                  onChange={(ev) => setText2(ev.target.value)}
-                />
+                   <Form.Control
+                     type="text"
+                     onChange={(ev) => setText2(ev.target.value)}
+                   />
 
-                <br />
-                <Form.Label column sm="2">
-                  Text3
-                </Form.Label>
+                   <br />
+                   <Form.Label column sm="2">
+                     Text3
+                   </Form.Label>
 
-                <Form.Control
-                  type="text"
-                  onChange={(ev) => setText3(ev.target.value)}
-                />
+                   <Form.Control
+                     type="text"
+                     onChange={(ev) => setText3(ev.target.value)}
+                   /></>
+               
               </Form.Group>
               <div>
                 <select
@@ -113,8 +166,7 @@ const MemeGenerate = () => {
               <div className="p-div">
                 <Image
                   src={`./images/${imgShow}.jpg`} //"./images/${}.jpg"
-                  with="200"
-                  height="200"
+                  className="memeImageGenerator"
                   thumbnail
                 />
                 <lable className={`p-txt1 ${font} ${color}`}>{text1}</lable>
@@ -136,20 +188,23 @@ const MemeGenerate = () => {
                   </optgroup>
                 </select>
               </div>
-  
             </Col>
-          </Row><br/>
+          </Row>
+          <br />
           <Row>
             <Col>
               <Button variant="primary" size="lg" active type="submit">
                 Submit meme
               </Button>{" "}
             </Col>
-          </Row><br/><br/>
+          </Row>
+          <br />
+          <br />
         </Form>
       </Container>
     </>
   );
 };
+
 
 export default MemeGenerate;

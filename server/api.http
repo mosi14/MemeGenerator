@@ -9,3 +9,27 @@ post   http://localhost:3001/api/logout
 ####
 
 get http://localhost:3001/api/memeList/
+
+####
+
+get http://localhost:3001/api/allmemeList/
+
+###
+post http://localhost:3001/api/create?imgId=1&title=1234&text1=1111&text2=2222
+
+####
+
+POST http://localhost:3001/api/create
+Content-Type: application/json
+
+{
+      "imgId": 1,
+      "txtColor": 1,
+      "txtFont": 1,
+      "title": "sadasdasd",
+      "text1": "sdcscsdc",
+      "text2": "dvcsdcsdc",
+      "text3": "dvdf",
+      "privacy": 1,
+      "userId": 1, 
+    };

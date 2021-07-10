@@ -44,6 +44,11 @@
 
 .memeImage{
   cursor: pointer;
+  height: 300px;
+}
+.memeImageGenerator{
+  width:100%;
+  height: 400px;
 }
 
 .memeModal{
