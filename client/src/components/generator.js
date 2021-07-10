@@ -68,7 +68,7 @@ const MemeGenerate = () => {
         <Form method="POST" id="frmReserve" >
           <Row className="mt-5">
             <Col>
-              <Form.Group
+              <Form.Group  
                 as={Row}
                 className="mb-3"
                 controlId="formPlaintextPassword"

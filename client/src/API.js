@@ -69,7 +69,33 @@ async function getMemes() {
  return memes;
 }
 
-
+async function getAllMemes() {
+  const response = await fetch("/api/allMemeList");
+  if (!response.ok) throw new Error(response.statusText);
+  const memesJson = await response.json();
+  //return memesJson.map((m) => Meme.from(m));
+  const memes = memesJson.map(
+    (l) =>
+      new Meme(
+        l.id,
+        l.imgId,
+        l.txtColor,
+        l.title,
+        l.text1,
+        l.text2,
+        l.text3,
+        l.privacy,
+        l.userId,
+        l.txtFont,
+        l.rId,
+        l.position1,
+        l.position2,
+        l.position3,
+        l.numTxt
+      )
+  );
+ return memes;
+}
 
 
 async function createMeme(params) {
@@ -93,5 +119,5 @@ async function createMeme(params) {
 }
 
 
-const API = { logIn, logOut, getMemes, createMeme, getUserInfo };
+const API = { logIn, logOut, getMemes, getAllMemes, createMeme, getUserInfo };
 export default API;

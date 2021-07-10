@@ -106,7 +106,7 @@ function MylogOutButton(props) {
   const handleLogOut = (event) => {
     event.preventDefault();
     props.logOut();
-    console.log("logoutasa");
+   
   };
 
   return (
