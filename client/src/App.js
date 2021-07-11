@@ -14,11 +14,11 @@ import { MyLoginForm } from "./components/logIn";
 import API from "./API";
 
 function App() {
-  const [dirty, setDirty] = useState(true);
   const [message, setMessage] = useState("");
   const [loggedIn, setLoggedIn] = useState(false); // at the beginning, no user is logged in
   const [currentUser, setCurrentUser] = useState([]);
   const [memeList, setMemeList] = useState([]);
+  const [dirty, setDirty] = useState(true);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -59,14 +59,14 @@ function App() {
   useEffect(() => {
     const getMemes = async () => {
       setMemeList([]);
-      if (loggedIn) {
+      if (loggedIn && dirty) {
         const memes = await API.getAllMemes();
         setMemeList(memes);
-        setDirty(true);
-      } else {
+        setDirty(false);
+      } else if (dirty) {
         const memesnoauth = await API.getMemes();
         setMemeList(memesnoauth);
-        setDirty(true);
+        setDirty(false);
       }
     };
     getMemes().catch((err) => {
@@ -76,7 +76,38 @@ function App() {
       });
       console.error(err);
     });
-  }, [loggedIn]);
+  }, [loggedIn, dirty]);
+
+  const deleteMeme = (id) => {
+    console.log(`trying to delete meme id: ${id}`);
+    API.deleteMeme(id)
+    .then((data) => {
+      console.log(`inside then delete meme: ${id} ${data}`);
+      if (data === null) {
+        // TODO: show success message
+        setDirty(true);
+      }
+    })
+    .catch((errorObj) => {
+      console.log(`catch error of delete meme: ${id}`);
+      console.log(errorObj);
+      setDirty(false);
+    });
+  }
+
+  const copyMeme = (id) => {
+    API.deleteMeme(id)
+    .then((data) => {
+      if (data === null) {
+        setDirty(true);
+      }
+    })
+    .catch((errorObj) => {
+      console.log(`catch error of delete meme: ${id}`);
+      console.log(errorObj);
+      setDirty(false);
+    });
+  }
 
   return (
     <Router>
@@ -86,7 +117,7 @@ function App() {
           <Route
             exact
             path="/"
-            render={() => (<Home  isLoggedIn={loggedIn}  memeList={memeList} />)}
+            render={() => (<Home  deleteMeme={deleteMeme} copyMeme={copyMeme} isLoggedIn={loggedIn}  memeList={memeList} />)}
           />
           <Route
             exact

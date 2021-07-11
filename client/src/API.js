@@ -108,7 +108,7 @@ async function createMeme(params) {
           body: params,
       }).then((response) => {
           if (response.ok) {
-              resolve(response.json());
+              resolve(response.ok);
           } else {
               response.json()
                   .then((obj) => { reject(obj); }) // error msg in the response body
@@ -118,6 +118,24 @@ async function createMeme(params) {
   });
 }
 
+function deleteMeme(id) {
+  return new Promise((resolve, reject) => {
+    fetch('/api/meme/' + id, {
+      method: 'DELETE',
+    }).then((response) => {
+      console.log(`delete meme response: ${response.text}`);
+      if (response.ok) {
+        resolve(null);
+      } else {
+        // analyze the cause of error
+        response.json()
+          .then((message) => { reject(message); }) // error message in the response body
+          .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+        }
+    }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+  });
+}
 
-const API = { logIn, logOut, getMemes, getAllMemes, createMeme, getUserInfo };
+
+const API = { logIn, logOut, getMemes, getAllMemes, createMeme, getUserInfo, deleteMeme };
 export default API;

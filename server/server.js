@@ -153,7 +153,7 @@ app.get('/api/meme/:id', async (req, res) => {
   }
 });
 
-// DELETE /api/exams/<id>
+// DELETE /api/meme/<id>
 app.delete('/api/meme/:id', isLoggedIn, async (req, res) => {
   try {
     await dao.deleteMeme(req.params.id, req.user.id);
@@ -178,7 +178,7 @@ app.post("/api/create", async (req, res) => {
       text2: req.body.text2,
       text3: req.body.text3,
       privacy: req.body.privacy,
-      //userId: req.user.id, // WARN: user id in the req.body.user does not mean anything because the loggedIn user can change only its owns
+      userId: req.user.id, // WARN: user id in the req.body.user does not mean anything because the loggedIn user can change only its owns
     };
     await dao.generateMeme(meme);
     res.status(201).end();

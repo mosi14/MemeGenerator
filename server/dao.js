@@ -147,14 +147,18 @@ exports.generateMeme = (meme) => {
 };
 
 // delete an existing meme by user who created the meme
-exports.deleteMeme = (userId, id) => {
+exports.deleteMeme = (id, userId) => {
   return new Promise((resolve, reject) => {
+    console.log(`user id: ${userId} id: ${id}`);
     const sql = "DELETE FROM memeList WHERE id = ? and userId = ? ";
     db.run(sql, [id, userId], (err) => {
       if (err) {
         reject(err);
         return;
-      } else resolve(null);
+      } else {
+        console.log("delete meme dao success!");
+        resolve(null);
+      };
     });
   });
 };

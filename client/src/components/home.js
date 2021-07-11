@@ -8,12 +8,13 @@ const Home = (props) => {
   const isLoggedIn = props.isLoggedIn;
   console.log("memelist home:  " + props.memeList);
 
+ 
   return (
     <>
       <Container fluid>
         <Row className="mt-5">
           {memeList.map((meme) => (
-              <Meme key={meme.id} meme={meme} isLoggedIn={isLoggedIn}/>
+              <Meme key={meme.id} meme={meme} isLoggedIn={isLoggedIn} deleteMeme={props.deleteMeme} copyMeme={props.copyMeme} />
           ))}
         </Row>
       </Container>
