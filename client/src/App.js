@@ -153,7 +153,7 @@ function App() {
             path="/generator"
             render={() => (
               <>
-                {loggedIn ? (
+                {loggedIn && currentUser.name === "Creator" ? (
                   <Generator imgRule={imgRule} username={currentUser} />
                 ) : (
                   ""
