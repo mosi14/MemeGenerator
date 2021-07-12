@@ -117,13 +117,13 @@ function App() {
           <Route
             exact
             path="/"
-            render={() => (<Home  deleteMeme={deleteMeme} copyMeme={copyMeme} isLoggedIn={loggedIn}  memeList={memeList} />)}
+            render={() => (<Home  username={currentUser} deleteMeme={deleteMeme} copyMeme={copyMeme} isLoggedIn={loggedIn}  memeList={memeList} />)}
           />
           <Route
             exact
             path="/generator"
             render={() => (
-              <>{loggedIn ?  <Generator /> : ""}</>
+              <>{loggedIn ?  <Generator  username={currentUser}/> : ""}</>
             )}
           />
 

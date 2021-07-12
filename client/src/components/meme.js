@@ -1,29 +1,12 @@
 import { Col, Button, Card, Modal } from "react-bootstrap";
-import React, { useState, useEffect } from "react";
-import API from "../API";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 
 const Meme = (props) => {
   const [memeShow, setmemeShow] = useState(false);
-  const [currentUser, setCurrentUser] = useState([]);
   const handleMemeClose = () => setmemeShow(false);
   const handlememeShow = () => setmemeShow(true);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        // here you have the user info, if already logged in
-        // TODO: store them somewhere and use them, if needed
-        var currentUser = await API.getUserInfo();
-        console.log(currentUser);
-        setCurrentUser(currentUser);
-      } catch (err) {
-        console.error(err.error);
-      }
-    };
-    checkAuth();
-  }, []);
 
   return (
     <>
@@ -64,7 +47,7 @@ const Meme = (props) => {
                   Copy
                 </Button>
                 </Link>
-                {props.meme.userId === currentUser.id ? (
+                {props.meme.userId === props.username.id ? (
                   <Button variant="danger" onClick={() => { props.deleteMeme(props.meme.id) }}>Delete</Button>
                 ) : (
                   ""
@@ -88,7 +71,7 @@ const Meme = (props) => {
         <Modal.Body>
           <Card.Title>
           
-            <span class="material-icons-outlined">Create by: {currentUser.name}</span>
+            <span class="material-icons-outlined">Create by: {props.username.name}</span>
           </Card.Title>
           <Card style={{ width: "18rem" }}>
             <Card.Img

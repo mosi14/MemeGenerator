@@ -14,7 +14,7 @@ const Home = (props) => {
       <Container fluid>
         <Row className="mt-5">
           {memeList.map((meme) => (
-              <Meme key={meme.id} meme={meme} isLoggedIn={isLoggedIn} deleteMeme={props.deleteMeme} copyMeme={props.copyMeme} />
+              <Meme key={meme.id} meme={meme} isLoggedIn={isLoggedIn} deleteMeme={props.deleteMeme} copyMeme={props.copyMeme}  username={props.username}/>
           ))}
         </Row>
       </Container>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Image, Container, Row, Col, Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./generator.css";
@@ -6,10 +6,10 @@ import API from '../API';
 import Meme from '../entities/Meme'
 import { useLocation } from 'react-router';
 
-const MemeGenerate = () => {
+const MemeGenerate = (props) => {
   const location = useLocation();
   const [title, setTitle] = useState(location.meme ? location.meme.title : '');
-  const [currentUser, setCurrentUser] = useState(location.meme ? location.meme.userId : '');
+  //const [currentUser, setCurrentUser] = useState(location.meme ? location.meme.userId : '');
   const [imgId, setImgId] = useState(location.meme ? location.meme.imgId : 1);
   const [text1, setText1] = useState(location.meme ? location.meme.text1 : '');;
   const [text2, setText2] = useState(location.meme ? location.meme.text2 : '');
@@ -19,23 +19,6 @@ const MemeGenerate = () => {
   const [privacy, setPrivacy] = useState(location.meme ? location.meme.privacy : false);;
   const [inserted, setInserted] = useState(false);
   const [formErrors, setFormErrors] = useState([text1, text2, text3]);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        console.log(`memeId is: ${location.meme.id} ${location.meme.title} `);
-
-        // here you have the user info, if already logged in
-        // TODO: store them somewhere and use them, if needed
-        var currentUser = await API.getUserInfo();
-        console.log(currentUser);
-        setCurrentUser(currentUser);
-      } catch (err) {
-        console.error(err.error);
-      }
-    };
-    checkAuth();
-  }, []);
 
   const handleErrors = (err) => {
     if(err.errors)
@@ -54,7 +37,7 @@ const MemeGenerate = () => {
       form.reportValidity();
     } else {
 
-      let meme = new Meme(null, imgId, color, title, text1, text2, text3, privacy, currentUser.id, font);
+      let meme = new Meme(null, imgId, color, title, text1, text2, text3, privacy, props.username.id, font);
       console.log(meme);
 
       if (meme.text1 === "" && meme.text2 === "" && meme.text3 === "") {
@@ -82,12 +65,6 @@ const MemeGenerate = () => {
       });
       }
   }
-
-  // const createMeme = (meme) => {
-  //   API.createMeme(meme)
-  //     .then(() => {
-  //     }).catch(err => handleErrors(err) );
-  // }
 
   return (
     <>
