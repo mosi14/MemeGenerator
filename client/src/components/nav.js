@@ -10,10 +10,9 @@ const Navak = (props) => {
           <Navbar.Brand href="/">Home</Navbar.Brand>
           <h5 className="text-light">welcome {props.username.name}</h5>
           <Nav className="me-auto">
-            {props.username.name === "creator"? <Nav.Link href="/generator">Create Meme</Nav.Link>:""}
+            {props.username.name === "Creator" ? <Nav.Link href="/generator">Create Meme</Nav.Link>:""}
            
             <MylogOutButton logOut={props.logOut} />
-            {/* <Nav.Link logOut={props.logOut} >Logout</Nav.Link> */}
           </Nav>
         </Container>
       </Navbar>
@@ -25,7 +24,6 @@ const Navak = (props) => {
           <Navbar.Brand href="/">Home</Navbar.Brand>
           <Nav className="me-auto">
           <MylogInButton isLoggedIn={props.isLoggedIn} />
-          {/*   <Nav.Link href="/login">Login</Nav.Link> */}
           </Nav>
         </Container>
       </Navbar>

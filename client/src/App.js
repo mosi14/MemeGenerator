@@ -76,24 +76,6 @@ function App() {
     });
   }, [loggedIn]);
 
-  // useEffect(() => {
-  //   const getMemes = async () => {
-  //     setMemeList([]);
-  //     if (dirty) {
-  //       const memes = await API.getMemes();
-  //       setMemeList(memes);
-  //       setDirty(false);
-  //     }
-  //   };
-  //   getMemes().catch((err) => {
-  //     setMessage({
-  //       msg: "Impossible to load your memes! Please, try again later...",
-  //       type: "danger",
-  //     });
-  //     console.error(err );
-  //   });
-  // }, [dirty]);
-
   useEffect(() => {
     const getRules = async () => {
       setImgRule([]);

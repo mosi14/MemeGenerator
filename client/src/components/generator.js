@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Image, Container, Row, Col, Button, Alert } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./generator.css";
@@ -8,13 +8,13 @@ import { useLocation } from "react-router";
 
 const MemeGenerate = (props) => {
   const location = useLocation();
+  const [memeId, setMemeId] = useState(location.meme ? location.meme.id : "");
   const [title, setTitle] = useState(location.meme ? location.meme.title : "");
-  //const [currentUser, setCurrentUser] = useState(location.meme ? location.meme.userId : '');
   const [imgId, setImgId] = useState(location.meme ? location.meme.imgId : 1);
   const [text1, setText1] = useState(location.meme ? location.meme.text1 : "");
   const [text2, setText2] = useState(location.meme ? location.meme.text2 : "");
   const [text3, setText3] = useState(location.meme ? location.meme.text3 : "");
-  const [error,setError]=useState(false);
+  const [error, setError] = useState(false);
   const [position1x, setPosition1x] = useState(
     location.meme ? location.meme.position1x : 50
   );
@@ -47,7 +47,6 @@ const MemeGenerate = (props) => {
   );
   const [inserted, setInserted] = useState(false);
 
-
   const submitMeme = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
@@ -72,10 +71,9 @@ const MemeGenerate = (props) => {
       } else {
         setError(false);
       }
-
+    
       API.createMeme(JSON.stringify(meme))
         .then((data) => {
-        
           setInserted(true);
           setTitle("");
           setText1("");
@@ -85,18 +83,21 @@ const MemeGenerate = (props) => {
           setColor("color-1");
           setImgId(1);
         })
-        .catch((errorObj) => {
-
-        });
+        .catch((errorObj) => {});
     }
   };
-  
-  useEffect(() => {
-
-  }, [position1x, position1y, position2x, position2y ,position3x, position3y, numTxt])
+ 
+  useEffect(() => {}, [
+    position1x,
+    position1y,
+    position2x,
+    position2y,
+    position3x,
+    position3y,
+    numTxt,
+  ]);
 
   const handleChange = (index) => {
-
     setImgId(index);
     var pos1x = 0;
     var pos2x = 0;
@@ -107,13 +108,13 @@ const MemeGenerate = (props) => {
     var nTxt = 0;
     props.imgRule.forEach(function (meme) {
       if (meme.imgId.toString() === index.toString()) {
-          pos1x=meme.position1x;
-          pos2x=meme.position2x;
-          pos3x=meme.position3x;
-          pos1y=meme.position1y;
-          pos2y=meme.position2y;
-          pos3y=meme.position3y;
-          nTxt = meme.numTxt;
+        pos1x = meme.position1x;
+        pos2x = meme.position2x;
+        pos3x = meme.position3x;
+        pos1y = meme.position1y;
+        pos2y = meme.position2y;
+        pos3y = meme.position3y;
+        nTxt = meme.numTxt;
       }
     });
     setPosition1x(pos1x);
@@ -123,11 +124,8 @@ const MemeGenerate = (props) => {
     setPosition2y(pos2y);
     setPosition3y(pos3y);
     setnumTxt(nTxt);
-    
   };
-
-
-
+  const visibility = privacy;
   const imgName = ["First", "Second", "Third", "Fourth"];
   return (
     <>
@@ -139,8 +137,20 @@ const MemeGenerate = (props) => {
         >
           <Row className="mt-5">
             <Col>
-            {inserted ? <Alert key="form-error" variant="success">the new meme has been created!</Alert>:""}
-          {error ? <Alert key="form-error" variant="danger">At least one of the meme texts should be filled!</Alert>:""}
+              {inserted ? (
+                <Alert key="form-error" variant="success">
+                  the new meme has been created!
+                </Alert>
+              ) : (
+                ""
+              )}
+              {error ? (
+                <Alert key="form-error" variant="danger">
+                  At least one of the meme texts should be filled!
+                </Alert>
+              ) : (
+                ""
+              )}
               <Form.Group
                 as={Row}
                 className="mb-3"
@@ -167,7 +177,7 @@ const MemeGenerate = (props) => {
                     type="text"
                     onChange={(ev) => setText1(ev.target.value)}
                     value={text1}
-                    className= {error ? "border-danger": ""}
+                    className={error ? "border-danger" : ""}
                   />
                   {numTxt > 1 ? (
                     <>
@@ -180,7 +190,7 @@ const MemeGenerate = (props) => {
                         type="text"
                         onChange={(ev) => setText2(ev.target.value)}
                         value={text2}
-                        className= {error ? "border-danger": ""}
+                        className={error ? "border-danger" : ""}
                       />
                     </>
                   ) : (
@@ -197,7 +207,7 @@ const MemeGenerate = (props) => {
                         type="text"
                         onChange={(ev) => setText3(ev.target.value)}
                         value={text3}
-                        className= {error ? "border-danger": ""}
+                        className={error ? "border-danger" : ""}
                       />
                     </>
                   ) : (
@@ -238,32 +248,37 @@ const MemeGenerate = (props) => {
                 </select>
               </div>
               <hr />
-
-              {["radio"].map((type) => (
-                <div key={`inline-${type}`} className="mb-3">
-                  <Form.Check
-                    inline
-                    label="public"
-                    name="group1"
-                    type={type}
-                   checked={privacy === "public" ? 'checked' : ''}
-                  //  checked="checked"
-                    value="public"
-                    onChange={(ev) => setPrivacy(ev.target.value)}
-                    id={`inline-${type}-1`}
-                  />
-                  <Form.Check
-                    inline
-                    label="protected"
-                    name="group1"
-                    type={type}
-                    checked={privacy === "protected" ? 'checked' : ''}
-                    value="protected"
-                    onChange={(ev) => setPrivacy(ev.target.value)}
-                    id={`inline-${type}-2`}
-                  />
-                </div>
-              ))}
+              {props.username.id === memeId || visibility === "public" ? (
+                <>
+                  {["radio"].map((type) => (
+                    <div key={`inline-${type}`} className="mb-3">
+                      <Form.Check
+                        inline
+                        label="public"
+                        name="group1"
+                        type={type}
+                        checked={privacy === "public" ? "checked" : ""}
+                        //  checked="checked"
+                        value="public"
+                        onChange={(ev) => setPrivacy(ev.target.value)}
+                        id={`inline-${type}-1`}
+                      />
+                      <Form.Check
+                        inline
+                        label="protected"
+                        name="group1"
+                        type={type}
+                        checked={privacy === "protected" ? "checked" : ""}
+                        value="protected"
+                        onChange={(ev) => setPrivacy(ev.target.value)}
+                        id={`inline-${type}-2`}
+                      />
+                    </div>
+                  ))}{" "}
+                </>
+              ) : (
+                ""
+              )}
             </Col>
             <Col>
               <div className="p-div">
@@ -274,10 +289,10 @@ const MemeGenerate = (props) => {
                 />
                 {numTxt > 0 ? (
                   <p
-                  style={{
-                    top: position1x + "px",
-                    left: position1y + "px",
-                  }}
+                    style={{
+                      top: position1x + "px",
+                      left: position1y + "px",
+                    }}
                     className={`textpos ${font} ${color}`}
                   >
                     {text1}
@@ -285,9 +300,7 @@ const MemeGenerate = (props) => {
                 ) : (
                   ""
                 )}
-                {                
-                numTxt > 1 ? (
-
+                {numTxt > 1 ? (
                   <p
                     style={{
                       top: position2x + "px",
@@ -302,10 +315,10 @@ const MemeGenerate = (props) => {
                 )}
                 {numTxt > 2 ? (
                   <p
-                  style={{
-                    top: position3x + "px",
-                    left: position3y + "px",
-                  }}
+                    style={{
+                      top: position3x + "px",
+                      left: position3y + "px",
+                    }}
                     className={`textpos ${font} ${color}`}
                   >
                     {text3}
@@ -313,55 +326,26 @@ const MemeGenerate = (props) => {
                 ) : (
                   ""
                 )}
-
-                {/* <lable
-                  style={{
-                    top: pos1.split(",")[0] + "px",
-                    left: pos1.split(",")[1] + "px",
-                  }}
-                  className={`textpos ${font} ${color}`}
-                >
-                  {text1}
-                </lable>
-                <lable
-                  // style={{
-                  //   top: pos2.split(",")[0] + "px",
-                  //   left: pos2.split(",")[1] + "px",
-                  // }}
-                  className={`textpos ${font} ${color}`}
-                >
-                  {text2}
-                </lable>
-                <lable
-                  // style={{
-                  //   top: pos3.split(",")[0] + "px",
-                  //   left: pos3.split(",")[1] + "px",
-                  // }}
-                  className={`textpos ${font} ${color}`}
-                > 
-                  {text3}
-                </lable> */}
               </div>
               <div>
-              
-                <select
-                  name="bgImage"
-                  id="bg_image"
-                  selected={imgId}
-                  onChange={(ev) => handleChange(ev.target.value)}
-                  
-                >
-                  {/* <option>Choose one </option> */}
-                  <optgroup label="Choose one">
-                    {props.imgRule.map((x,index) => {
-                      return (
-                        <option value={x.imgId}>
-                          {imgName[index]} meme
-                        </option>
-                      );
-                    })}
-                  </optgroup>
-                </select>
+                {memeId === "" ? (
+                  <select
+                    name="bgImage"
+                    id="bg_image"
+                    selected={imgId}
+                    onChange={(ev) => handleChange(ev.target.value)}
+                  >
+                    <optgroup label="Choose one">
+                      {props.imgRule.map((x, index) => {
+                        return (
+                          <option value={x.imgId}>{imgName[index]} meme</option>
+                        );
+                      })}
+                    </optgroup>
+                  </select>
+                ) : (
+                  ""
+                )}
               </div>
             </Col>
           </Row>

@@ -105,11 +105,6 @@ const Meme = (props) => {
             ) : (
               ""
             )}
-            {/* <Card.Body>
-                
-            
-                
-              </Card.Body> */}
           </Card>
         </Modal.Body>
         <Modal.Footer></Modal.Footer>

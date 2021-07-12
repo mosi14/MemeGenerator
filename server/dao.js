@@ -121,6 +121,7 @@ exports.ImgRule = () => {
 exports.generateMeme = (meme) => {
   console.log(meme);
   return new Promise((resolve, reject) => {
+    console.log("asxacacascac");
     const sql =
       "INSERT INTO memeList (imgId, txtColor, title, text1, text2, text3, privacy, userId, txtFont) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
     db.run(
