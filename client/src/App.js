@@ -75,9 +75,9 @@ function App() {
         msg: "Impossible to load your memes! Please, try again later...",
         type: "danger",
       });
-      console.error(err);
+      console.error(err );
     });
-  }, [loggedIn, dirty]);
+  }, []); 
 
   useEffect(() => {
     const getRules = async () => {

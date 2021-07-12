@@ -73,12 +73,12 @@ const Meme = (props) => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title>{props.meme.title}{iconLock}</Modal.Title>
+          <Modal.Title> {props.meme.privacy==='0'  ? iconUnlock:iconLock} {props.meme.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Card.Title>
             <span class="material-icons-outlined">
-              Create by: {props.username.name}
+              Create by: {props.meme.username}
             </span>
           </Card.Title>
           <Card style={{ width: "18rem" }}>

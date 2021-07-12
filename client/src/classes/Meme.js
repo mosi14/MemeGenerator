@@ -1,5 +1,5 @@
 class Meme{
-    constructor(id, imgId, txtColor, title, text1, text2, text3, privacy, userId, txtFont, rId,position1, position2,position3,numTxt)
+    constructor(id, imgId, txtColor, title, text1, text2, text3, privacy, userId,username , name, txtFont, rId,position1, position2,position3,numTxt)
     {
         this.id = id;
         this.imgId = imgId;
@@ -10,6 +10,8 @@ class Meme{
         this.text3 = text3;
         this.privacy = privacy;
         this.userId = userId;
+        this.username = username;
+        this.name = name
         this.txtFont = txtFont;
         this.rId = rId;
         this.position1 = position1;

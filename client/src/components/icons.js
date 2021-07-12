@@ -35,7 +35,7 @@ const iconDelete = (
 );
 
 const iconLock = (
-  <svg>
+  <svg width="2em" height="2em">
     <defs id="defs1874">
       <linearGradient
         id="linearGradient4426"
@@ -107,47 +107,7 @@ const iconLock = (
           fill="url(#linearGradient4446)"
         />
       </mask>
-      <clipPath id="clipPath4499" clipPathUnits="userSpaceOnUse">
-        <rect
-          id="rect4501"
-          opacity=".35955"
-          transform="scale(1,-1)"
-          rx="0"
-          ry="0"
-          height="9.425"
-          width="70.858"
-          y="-.11355"
-          x="-3.9004"
-          fill="#fff"
-        />
-      </clipPath>
-      <clipPath id="clipPath4503" clipPathUnits="userSpaceOnUse">
-        <rect
-          id="rect4505"
-          opacity=".35955"
-          transform="scale(1,-1)"
-          rx="0"
-          ry="0"
-          height="9.425"
-          width="70.858"
-          y="-.11355"
-          x="-3.9004"
-          fill="#fff"
-        />
-      </clipPath>
-      <clipPath id="clipPath4507" clipPathUnits="userSpaceOnUse">
-        <rect
-          id="rect4509"
-          opacity=".35955"
-          rx="0"
-          ry="0"
-          height="9.425"
-          width="70.858"
-          y="-.11355"
-          x="-3.9004"
-          fill="#fff"
-        />
-      </clipPath>
+
       <radialGradient
         id="radialGradient4554"
         gradientUnits="userSpaceOnUse"
@@ -259,47 +219,7 @@ const iconLock = (
           fill="none"
         />
       </g>
-      <path
-        id="path2985-5"
-        d="m36 1.9669 0.19136 25.295h29.809c0-25.616-30-0.02-30-25.295z"
-        fill-rule="evenodd"
-        clip-path="url(#clipPath4507)"
-        mask="url(#mask4454)"
-        transform="translate(4.7868)"
-        fill="url(#linearGradient4560)"
-      />
-      <rect
-        id="rect2987-0"
-        stroke-width=".9434"
-        clip-path="url(#clipPath4503)"
-        mask="url(#mask4448)"
-        rx="1.3752"
-        ry="1.2517"
-        transform="matrix(1 0 0 -1 4.7868 0)"
-        width="29.033"
-        stroke="url(#linearGradient4426)"
-        stroke-linecap="square"
-        y="-26.797"
-        x="36.484"
-        height="3.4451"
-        fill="none"
-      />
-      <rect
-        id="rect2989-2"
-        clip-path="url(#clipPath4499)"
-        mask="url(#mask4442)"
-        rx="2.5"
-        ry="2.3779"
-        transform="matrix(1 0 0 -1 4.7868 0)"
-        height="27.242"
-        width="31.07"
-        stroke="#800000"
-        stroke-linecap="square"
-        y="-27.749"
-        x="35.465"
-        stroke-width=".90705"
-        fill="#800000"
-      />
+
       <g id="g3954" transform="translate(38.154 -.34066)">
         <path
           id="path2858"
@@ -322,22 +242,8 @@ const iconLock = (
 );
 
 const iconUnlock = (
-  <svg>
+  <svg width="2em" height="2em">
     <defs id="defs1874">
-      <mask id="mask4436" maskUnits="userSpaceOnUse">
-        <rect
-          id="rect4438"
-          opacity=".35955"
-          rx=".40065"
-          ry="0"
-          height="28.455"
-          width="66.218"
-          y="29.462"
-          x="-.17729"
-          fill="url(#linearGradient4440)"
-        />
-      </mask>
-     
       <mask id="mask4448" maskUnits="userSpaceOnUse">
         <rect
           id="rect4450"
@@ -379,94 +285,7 @@ const iconUnlock = (
           fill="url(#linearGradient4452)"
         />
       </mask>
-      <clipPath id="clipPath4495" clipPathUnits="userSpaceOnUse">
-        <rect
-          id="rect4497"
-          opacity=".35955"
-          rx="0"
-          ry="0"
-          height="9.425"
-          width="70.858"
-          y="29.526"
-          x="-.11355"
-          fill="#fff"
-        />
-      </clipPath>
-      <clipPath id="clipPath4503" clipPathUnits="userSpaceOnUse">
-        <rect
-          id="rect4505"
-          opacity=".35955"
-          transform="scale(1,-1)"
-          rx="0"
-          ry="0"
-          height="9.425"
-          width="70.858"
-          y="-.11355"
-          x="-3.9004"
-          fill="#fff"
-        />
-      </clipPath>
-      <clipPath id="clipPath4511" clipPathUnits="userSpaceOnUse">
-        <rect
-          id="rect4513"
-          opacity=".35955"
-          transform="scale(1,-1)"
-          rx="0"
-          ry="0"
-          height="9.425"
-          width="70.858"
-          y="-.11355"
-          x=".88645"
-          fill="#fff"
-        />
-      </clipPath>
-      <clipPath id="clipPath4515" clipPathUnits="userSpaceOnUse">
-        <rect
-          id="rect4517"
-          opacity=".35955"
-          rx="0"
-          ry="0"
-          height="9.425"
-          width="70.858"
-          y="-.11355"
-          x=".88645"
-          fill="#fff"
-        />
-      </clipPath>
-      <linearGradient
-        id="linearGradient4536"
-        x1="20.54"
-        gradientUnits="userSpaceOnUse"
-        y1="5.9131"
-        gradientTransform="matrix(1.0334 0 0 .90550 .41692 -30.822)"
-        x2="20.54"
-        y2="2.5"
-      >
-        <stop id="stop2782" stop-opacity="0" offset="0" />
-        <stop
-          id="stop2784"
-          stop-color="#fff"
-          stop-opacity=".23301"
-          offset="1"
-        />
-      </linearGradient>
-      <linearGradient
-        id="linearGradient4539"
-        x1="28.211"
-        gradientUnits="userSpaceOnUse"
-        y1="28.798"
-        gradientTransform="matrix(1.0345 0 0 1 .96552 -31)"
-        x2="7.2297"
-        y2="4.2326"
-      >
-        <stop
-          id="stop2800"
-          stop-color="#fff"
-          stop-opacity=".19417"
-          offset="0"
-        />
-        <stop id="stop2802" stop-color="#fff" stop-opacity="0" offset="1" />
-      </linearGradient>
+
       <radialGradient
         id="radialGradient4542"
         gradientUnits="userSpaceOnUse"
@@ -499,32 +318,7 @@ const iconUnlock = (
         fill="url(#linearGradient4539)"
         d="m2-2 0.1914-26.594h29.809c0 26.932-30 0.021-30 26.594z"
       />
-      <rect
-        id="rect2812"
-        rx="1.3752"
-        ry="1.316"
-        height="3.622"
-        width="29.033"
-        stroke="url(#linearGradient4536)"
-        stroke-linecap="square"
-        y="-28.106"
-        x="2.4837"
-        stroke-width=".96732"
-        fill="none"
-      />
-      <rect
-        id="rect2831"
-        rx="2.5"
-        ry="2.5"
-        height="28.641"
-        width="31.07"
-        stroke="#2d5016"
-        stroke-linecap="square"
-        y="-29.106"
-        x="1.465"
-        stroke-width=".93005"
-        fill="none"
-      />
+
       <g id="g4020" transform="translate(-34.276 .14253)">
         <path
           id="path2858-7"
@@ -542,61 +336,7 @@ const iconUnlock = (
           d="m46.934-13.953c-0.79896 0-1.443 0.64406-1.443 1.443 0 0.58224 0.33962 1.087 0.83544 1.3164l-0.53468 3.6012h2.481l-0.57287-3.6898c0.40881-0.25562 0.68354-0.71015 0.68354-1.2278 0-0.79896-0.6504-1.443-1.4494-1.443z"
         />
       </g>
-      <path
-        id="path2796-3"
-        d="m2 1.9023 0.1914 25.295h29.809c0-25.616-30-0.02-30-25.295z"
-        fill-rule="evenodd"
-        clip-path="url(#clipPath4515)"
-        mask="url(#mask4466)"
-        fill="url(#linearGradient4283)"
-      />
-      <rect
-        id="rect2831-9"
-        clip-path="url(#clipPath4511)"
-        mask="url(#mask4460)"
-        rx="2.5"
-        ry="2.3779"
-        transform="scale(1,-1)"
-        height="27.242"
-        width="31.07"
-        stroke="#2d5016"
-        stroke-linecap="square"
-        y="-27.684"
-        x="1.465"
-        stroke-width=".90705"
-        fill="#2d5016"
-      />
-      <rect
-        id="rect2987-0"
-        stroke-width=".9434"
-        clip-path="url(#clipPath4503)"
-        mask="url(#mask4448)"
-        rx="1.3752"
-        ry="1.2517"
-        transform="matrix(1 0 0 -1 4.7868 0)"
-        width="29.033"
-        stroke="url(#linearGradient4426)"
-        stroke-linecap="square"
-        y="-26.797"
-        x="36.484"
-        height="3.4451"
-        fill="none"
-      />
-      <rect
-        id="rect4328"
-        opacity="0"
-        clip-path="url(#clipPath4495)"
-        mask="url(#mask4436)"
-        rx="2.5"
-        ry="2.3779"
-        transform="translate(1 -29.639)"
-        width="31.912"
-        y="29.55"
-        x="0"
-        height="12.233"
-      />
     </g>
-
   </svg>
 );
 

@@ -6,8 +6,6 @@ const Home = (props) => {
   //const [showButton, setshowButton] = useState(false);
   const memeList = props.memeList;
   const isLoggedIn = props.isLoggedIn;
-  console.log("memelist home:  " + props.memeList);
-
  
   return (
     <>

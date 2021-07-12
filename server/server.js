@@ -123,7 +123,7 @@ app.get("/api/sessions/current", (req, res) => {
 /*** Meme List APIs ***/
 
 // GET /api/memePubliclist
-app.get("/api/memeList", (req, res) => {
+app.get("/api/memeList", (req, res) => {  
   dao
     .listPublicMemes()
     .then((memeslist) => {

@@ -42,11 +42,12 @@ exports.getUser = (username, password) => {
 exports.listPublicMemes = () => {
   return new Promise((resolve, reject) => {
     const sql =
-      'SELECT * FROM memeList m, imgRule r where m.imgId = r.imgId and privacy="0"';
-    db.all(sql, (err, rows) => {
-      if (err) {
-        reject(err);
-        return;
+      'SELECT * FROM memeList m, imgRule r, users u where m.imgId = r.imgId and u.id = m.userId and privacy="0"';
+      db.all(sql, (err, rows) => {
+        if (err) {
+          reject(err);
+          return;
+           console.log("asadada");
       }
       if (rows == undefined) {
         resolve({ error: "There is not any meme." });
@@ -61,7 +62,7 @@ exports.listPublicMemes = () => {
 // get all meme for user creator
 exports.listAllMemes = () => {
   return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM memeList m, imgRule r where m.imgId = r.imgId";
+    const sql = "SELECT * FROM memeList m, imgRule r, users u where m.imgId = r.imgId and u.id = m.userId";
     db.all(sql, (err, rows) => {
       if (err) {
         reject(err);
