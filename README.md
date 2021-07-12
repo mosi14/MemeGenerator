@@ -19,10 +19,10 @@
 - GET `/api/rule`
   - request parameters
   - response body content
-  - - GET `/api/allMemeList`
+- GET `/api/allMemeList`
   - request parameters
   - response body content
-  - - GET `/api/memeList`
+- GET `/api/memeList`
   - request parameters
   - response body content
 - POST `/api/create`
