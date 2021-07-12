@@ -18,6 +18,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false); // at the beginning, no user is logged in
   const [currentUser, setCurrentUser] = useState([]);
   const [memeList, setMemeList] = useState([]);
+  const [imgRule, setImgRule] = useState([]);
   const [dirty, setDirty] = useState(true);
 
   useEffect(() => {
@@ -71,12 +72,31 @@ function App() {
     };
     getMemes().catch((err) => {
       setMessage({
-        msg: "Impossible to load your exams! Please, try again later...",
+        msg: "Impossible to load your memes! Please, try again later...",
         type: "danger",
       });
       console.error(err);
     });
   }, [loggedIn, dirty]);
+
+  useEffect(() => {
+    const getRules = async () => {
+      setImgRule([]);
+      if (loggedIn && dirty) {
+        const rules = await API.getRules();
+        setImgRule(rules);
+        setDirty(false);
+      } 
+    };
+    getRules().catch((err) => {
+      setMessage({
+        msg: "Impossible to load your rules! Please, try again later...",
+        type: "danger",
+      });
+      console.error(err);
+    });
+  }, [loggedIn, dirty]);
+
 
   const deleteMeme = (id) => {
     console.log(`trying to delete meme id: ${id}`);
@@ -95,19 +115,7 @@ function App() {
     });
   }
 
-  const copyMeme = (id) => {
-    API.deleteMeme(id)
-    .then((data) => {
-      if (data === null) {
-        setDirty(true);
-      }
-    })
-    .catch((errorObj) => {
-      console.log(`catch error of delete meme: ${id}`);
-      console.log(errorObj);
-      setDirty(false);
-    });
-  }
+
 
   return (
     <Router>
@@ -117,13 +125,13 @@ function App() {
           <Route
             exact
             path="/"
-            render={() => (<Home  username={currentUser} deleteMeme={deleteMeme} copyMeme={copyMeme} isLoggedIn={loggedIn}  memeList={memeList} />)}
+            render={() => (<Home  username={currentUser} deleteMeme={deleteMeme}  isLoggedIn={loggedIn}  memeList={memeList} />)}
           />
           <Route
             exact
             path="/generator"
             render={() => (
-              <>{loggedIn ?  <Generator  username={currentUser}/> : ""}</>
+              <>{loggedIn ?  <Generator imgRule={imgRule} username={currentUser}/> : ""}</>
             )}
           />
 

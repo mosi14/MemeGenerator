@@ -87,3 +87,30 @@
 .font-link {
   font-family: 'Otomanopee One', sans-serif;
 }
+
+.font-1 {
+  font-family: "Otomanopee One", sans-serif;
+  font-size: 20px;
+}
+
+.font-2 {
+  font-family: "Lobster", cursive;
+  font-size: 20px;
+}
+
+.color-1 {
+  color: black;
+}
+
+.color-2 {
+  color: white;
+}
+.color-3 {
+  color: blue;
+}
+.color-4 {
+  color: red;
+}
+.textpos{
+  position: absolute;
+}

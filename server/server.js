@@ -153,6 +153,14 @@ app.get('/api/meme/:id', async (req, res) => {
   }
 });
 
+// GET /api/imgrule
+app.get("/api/rule", isLoggedIn, (req, res) => {
+  dao
+    .ImgRule()
+    .then((rules) => res.json(rules))
+    .catch(() => res.status(500).end());
+});
+
 // DELETE /api/meme/<id>
 app.delete('/api/meme/:id', isLoggedIn, async (req, res) => {
   try {

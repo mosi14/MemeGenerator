@@ -1,4 +1,5 @@
 import Meme from "./classes/Meme";
+import Rule from "./classes/imgRule";
 
 
 async function logIn(credentials) {
@@ -97,6 +98,24 @@ async function getAllMemes() {
  return memes;
 }
 
+async function getRules() {
+  const response = await fetch("/api/rule");
+  if (!response.ok) throw new Error(response.statusText);
+  const memesJson = await response.json();
+  const memes = memesJson.map(
+    (l) =>
+      new Rule(
+        l.imgId,
+        l.rId,
+        l.position1,
+        l.position2,
+        l.position3,
+        l.numTxt
+      )
+  );
+ return memes;
+}
+
 
 async function createMeme(params) {
   return new Promise((resolve, reject) => {
@@ -137,5 +156,5 @@ function deleteMeme(id) {
 }
 
 
-const API = { logIn, logOut, getMemes, getAllMemes, createMeme, getUserInfo, deleteMeme };
+const API = { logIn, logOut, getMemes, getAllMemes, createMeme, getUserInfo, deleteMeme, getRules };
 export default API;

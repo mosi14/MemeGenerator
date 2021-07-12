@@ -10,7 +10,7 @@ exports.getUserById = (id) => {
       if (err) reject(err);
       else if (row === undefined) resolve({ error: "User not found." });
       else {
-        // by default, the local strategy looks for "username": not to create confusion in server.js, we can create an object with that property
+       
         const user = { id: row.id, username: row.username, name: row.name };
         resolve(user);
       }
@@ -28,7 +28,7 @@ exports.getUser = (username, password) => {
         resolve(false);
       } else {
         const user = { id: row.id, username: row.username, name: row.name };
-        // check the hashes with an async call, given that the operation may be CPU-intensive (and we don't want to block the server)
+       
         bcrypt.compare(password, row.password).then((result) => {
           if (result) resolve(user);
           else resolve(false);
@@ -51,27 +51,7 @@ exports.listPublicMemes = () => {
       if (rows == undefined) {
         resolve({ error: "There is not any meme." });
       } else {
-        console.log(rows);
-        // const memelist = { ...rows };
-        // const memeList = rows.map(
-        //   (row) =>
-        //     {
-        //       row.id,
-        //       row.imgId,
-        //       row.txtColor,
-        //       row.title,
-        //       row.text1,
-        //       row.text2,
-        //       row.text3,
-        //       row.privacy,
-        //       row.userId,
-        //       row.txtFont,
-        //       row.rId,
-        //       row.position1,
-        //       row.position2,
-        //       row.position3,
-        //       row.numTxt}
-        // );
+
         resolve(rows);
       }
     });
@@ -90,7 +70,7 @@ exports.listAllMemes = () => {
       if (rows == undefined) {
         resolve({ error: "There is not any meme." });
       } else {
-        console.log(rows);
+       
         resolve(rows);
       }
     });
@@ -114,6 +94,27 @@ exports.getMeme = (id) => {
     });
   });
 };
+
+// get all meme for user creator
+exports.ImgRule = () => {
+  return new Promise((resolve, reject) => {
+    const sql = "SELECT * FROM imgRule";
+    db.all(sql, (err, rows) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      if (rows == undefined) {
+        console.log("sacasca");
+        resolve({ error: "There is not any meme." });
+      } else {
+
+        resolve(rows);
+      }
+    });
+  });
+};
+
 
 // generate new meme
 exports.generateMeme = (meme) => {
