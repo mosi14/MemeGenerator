@@ -7,7 +7,6 @@ const Meme = (props) => {
   const [memeShow, setmemeShow] = useState(false);
   const handleMemeClose = () => setmemeShow(false);
   const handlememeShow = () => setmemeShow(true);
-
   return (
     <>
       <Col md={3}>
@@ -36,9 +35,12 @@ const Meme = (props) => {
                       imgId: props.meme.imgId,
                       userId: props.meme.userId,
                       txtFont: props.meme.txtFont,
-                      position1: props.meme.position1,
-                      position2: props.meme.position2,
-                      position3: props.meme.position3,
+                      position1x: props.meme.position1x,
+                      position2x: props.meme.position2x,
+                      position3x: props.meme.position3x,
+                      position1y: props.meme.position1y,
+                      position2y: props.meme.position2y,
+                      position3y: props.meme.position3y,
                       numTxt: props.meme.numTxt,
                     },
                   }}
@@ -52,6 +54,7 @@ const Meme = (props) => {
                     variant="danger"
                     onClick={() => {
                       props.deleteMeme(props.meme.id);
+                    
                     }}
                   >
                     Delete
@@ -73,7 +76,7 @@ const Meme = (props) => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title> {props.meme.privacy==='0'  ? iconUnlock:iconLock} {props.meme.title}</Modal.Title>
+          <Modal.Title> {props.meme.privacy==='public'  ? iconUnlock : iconLock} {props.meme.title}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Card.Title>
@@ -88,17 +91,17 @@ const Meme = (props) => {
               className="memeModal_image"
             />
             {props.meme.text1 !== "" ? (
-              <p style={{top:props.meme.position1.split(",")[0]+"px", left:props.meme.position1.split(",")[1]+"px" }} className={`${props.meme.txtColor} ${props.meme.txtFont} textpos`}>{props.meme.text1}</p>
+              <p style={{top:props.meme.position1x+"px", left:props.meme.position1y+"px" }} className={`${props.meme.txtColor} ${props.meme.txtFont} textpos`}>{props.meme.text1}</p>
             ) : (
               ""
             )}
             {props.meme.numTxt > 1 && props.meme.text2 !== "" ? (
-              <p style={{top:props.meme.position2.split(",")[0]+"px", left:props.meme.position2.split(",")[1]+"px" }} className={`${props.meme.txtColor} ${props.meme.txtFont} textpos`}>{props.meme.text2}</p>
+              <p style={{top:props.meme.position2x+"px", left:props.meme.position2y+"px" }} className={`${props.meme.txtColor} ${props.meme.txtFont} textpos`}>{props.meme.text2}</p>
             ) : (
               ""
             )}
             {props.meme.numTxt > 2 && props.meme.text3 !== "" ? (
-              <p style={{top:props.meme.position3.split(",")[0]+"px", left:props.meme.position3.split(",")[1]+"px" }} className={`${props.meme.txtColor} ${props.meme.txtFont} textpos`}>{props.meme.text3}</p>
+              <p style={{top:props.meme.position3x+"px", left:props.meme.position3y+"px" }} className={`${props.meme.txtColor} ${props.meme.txtFont} textpos`}>{props.meme.text3}</p>
             ) : (
               ""
             )}

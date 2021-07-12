@@ -42,7 +42,7 @@ exports.getUser = (username, password) => {
 exports.listPublicMemes = () => {
   return new Promise((resolve, reject) => {
     const sql =
-      'SELECT * FROM memeList m, imgRule r, users u where m.imgId = r.imgId and u.id = m.userId and privacy="0"';
+      'SELECT m.id, m.imgId, m.txtColor, m.title, m.text1, m.text2, m.text3, m.privacy, m.userId,u.username , u.name, m.txtFont, r.rId,r.position1x,r.position1y, r.position2x, r.position2y,r.position3x, r.position3y,r.numTxt FROM memeList m, imgRule r, users u where m.imgId = r.imgId and u.id = m.userId and privacy="public"';
       db.all(sql, (err, rows) => {
         if (err) {
           reject(err);
@@ -61,8 +61,8 @@ exports.listPublicMemes = () => {
 
 // get all meme for user creator
 exports.listAllMemes = () => {
-  return new Promise((resolve, reject) => {
-    const sql = "SELECT * FROM memeList m, imgRule r, users u where m.imgId = r.imgId and u.id = m.userId";
+  return new Promise((resolve, reject) => { console.log("saxax");
+    const sql =  'SELECT m.id, m.imgId, m.txtColor, m.title, m.text1, m.text2, m.text3, m.privacy, m.userId,u.username , u.name, m.txtFont, r.rId,r.position1x,r.position1y, r.position2x, r.position2y,r.position3x, r.position3y,r.numTxt FROM memeList m, imgRule r, users u where m.imgId = r.imgId and u.id = m.userId';
     db.all(sql, (err, rows) => {
       if (err) {
         reject(err);

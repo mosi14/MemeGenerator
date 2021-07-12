@@ -27,9 +27,7 @@ function App() {
         // here you have the user info, if already logged in
         // TODO: store them somewhere and use them, if needed
         var currentUser = await API.getUserInfo();
-        console.log(currentUser);
         setCurrentUser(currentUser);
-        console.log(currentUser.name);
 
         setLoggedIn(true);
       } catch (err) {
@@ -43,7 +41,6 @@ function App() {
     try {
       const user = await API.logIn(credentials);
       setLoggedIn(true);
-      console.log(loggedIn);
       setMessage({ msg: `Welcome, ${user}!`, type: "success" });
     } catch (err) {
       setMessage({ msg: err, type: "danger" });
@@ -60,14 +57,14 @@ function App() {
   useEffect(() => {
     const getMemes = async () => {
       setMemeList([]);
-      if (loggedIn && dirty) {
+      if (loggedIn) {
         const memes = await API.getAllMemes();
         setMemeList(memes);
-        setDirty(false);
-      } else if (dirty) {
+        //   setDirty(false);
+      } else {
         const memesnoauth = await API.getMemes();
         setMemeList(memesnoauth);
-        setDirty(false);
+        // setDirty(false);
       }
     };
     getMemes().catch((err) => {
@@ -75,27 +72,27 @@ function App() {
         msg: "Impossible to load your memes! Please, try again later...",
         type: "danger",
       });
-      console.error(err );
+      console.error(err);
     });
-  }, [loggedIn,dirty]); 
+  }, [loggedIn]);
 
-  useEffect(() => {
-    const getMemes = async () => {
-      setMemeList([]);
-      if (dirty) {
-        const memes = await API.getMemes();
-        setMemeList(memes);
-        setDirty(false);
-      } 
-    };
-    getMemes().catch((err) => {
-      setMessage({
-        msg: "Impossible to load your memes! Please, try again later...",
-        type: "danger",
-      });
-      console.error(err );
-    });
-  }, [dirty]); 
+  // useEffect(() => {
+  //   const getMemes = async () => {
+  //     setMemeList([]);
+  //     if (dirty) {
+  //       const memes = await API.getMemes();
+  //       setMemeList(memes);
+  //       setDirty(false);
+  //     }
+  //   };
+  //   getMemes().catch((err) => {
+  //     setMessage({
+  //       msg: "Impossible to load your memes! Please, try again later...",
+  //       type: "danger",
+  //     });
+  //     console.error(err );
+  //   });
+  // }, [dirty]);
 
   useEffect(() => {
     const getRules = async () => {
@@ -104,7 +101,7 @@ function App() {
         const rules = await API.getRules();
         setImgRule(rules);
         setDirty(false);
-      } 
+      }
     };
     getRules().catch((err) => {
       setMessage({
@@ -115,25 +112,24 @@ function App() {
     });
   }, [loggedIn, dirty]);
 
-
+  useEffect(() => {
+ 
+  }, [memeList]);
   const deleteMeme = (id) => {
-    console.log(`trying to delete meme id: ${id}`);
     API.deleteMeme(id)
-    .then((data) => {
-      console.log(`inside then delete meme: ${id} ${data}`);
-      if (data === null) {
-        // TODO: show success message
-        setDirty(true);
-      }
-    })
-    .catch((errorObj) => {
-      console.log(`catch error of delete meme: ${id}`);
-      console.log(errorObj);
-      setDirty(false);
-    });
-  }
+      .then((data) => {
+        if (data === null) {
+          // TODO: show success message
+          setDirty(true);
+          var newMemeList = memeList.filter(ex => ex.id !== id);
+          setMemeList(newMemeList);
+        }
+      })
+      .catch((errorObj) => {
 
-
+        setDirty(false);
+      });
+  };
 
   return (
     <Router>
@@ -143,13 +139,26 @@ function App() {
           <Route
             exact
             path="/"
-            render={() => (<Home  username={currentUser} deleteMeme={deleteMeme}  isLoggedIn={loggedIn}  memeList={memeList} />)}
+            render={() => (
+              <Home
+                username={currentUser}
+                deleteMeme={deleteMeme}
+                isLoggedIn={loggedIn}
+                memeList={memeList}
+              />
+            )}
           />
           <Route
             exact
             path="/generator"
             render={() => (
-              <>{loggedIn ?  <Generator imgRule={imgRule} username={currentUser}/> : ""}</>
+              <>
+                {loggedIn ? (
+                  <Generator imgRule={imgRule} username={currentUser} />
+                ) : (
+                  ""
+                )}
+              </>
             )}
           />
 

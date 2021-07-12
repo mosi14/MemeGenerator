@@ -1,7 +1,6 @@
 import Meme from "./classes/Meme";
 import Rule from "./classes/imgRule";
 
-
 async function logIn(credentials) {
   let response = await fetch(`/api/sessions`, {
     method: "POST",
@@ -11,11 +10,11 @@ async function logIn(credentials) {
     body: JSON.stringify(credentials),
   });
   if (response.ok) {
-    console.log("Ok api client");
+
     const user = await response.json();
     return user.username;
   } else {
-    console.log(response);
+
     try {
       const errDetail = await response.json();
       throw errDetail.message;
@@ -26,21 +25,18 @@ async function logIn(credentials) {
 }
 
 async function logOut() {
-  await fetch('/api/sessions/current', { method: 'DELETE' });
+  await fetch("/api/sessions/current", { method: "DELETE" });
 }
 
 async function getUserInfo() {
-  const response = await fetch( 'api/sessions/current');
+  const response = await fetch("api/sessions/current");
   const userInfo = await response.json();
   if (response.ok) {
     return userInfo;
   } else {
-    throw userInfo;  // an object with the error coming from the server
+    throw userInfo; // an object with the error coming from the server
   }
 }
-
-
-
 
 async function getMemes() {
   const response = await fetch("/api/memeList");
@@ -63,13 +59,16 @@ async function getMemes() {
         l.name,
         l.txtFont,
         l.rId,
-        l.position1,
-        l.position2,
-        l.position3,
+        l.position1x,
+        l.position1y,
+        l.position2x,
+        l.position2y,
+        l.position3x,
+        l.position3y,
         l.numTxt
       )
   );
- return memes;
+  return memes;
 }
 
 async function getAllMemes() {
@@ -93,13 +92,16 @@ async function getAllMemes() {
         l.name,
         l.txtFont,
         l.rId,
-        l.position1,
-        l.position2,
-        l.position3,
+        l.position1x,
+        l.position1y,
+        l.position2x,
+        l.position2y,
+        l.position3x,
+        l.position3y,
         l.numTxt
       )
   );
- return memes;
+  return memes;
 }
 
 async function getRules() {
@@ -108,57 +110,78 @@ async function getRules() {
   const memesJson = await response.json();
   const memes = memesJson.map(
     (l) =>
-      new Rule(
-        l.imgId,
-        l.rId,
-        l.position1,
-        l.position2,
-        l.position3,
-        l.numTxt
-      )
+      new Rule(l.imgId, l.rId, l.position1x,l.position1y, l.position2x, l.position2y, l.position3x, l.position3y, l.numTxt)
   );
- return memes;
+  return memes;
 }
-
 
 async function createMeme(params) {
   return new Promise((resolve, reject) => {
-      fetch("/api/create", {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: params,
-      }).then((response) => {
-          if (response.ok) {
-              resolve(response.ok);
-          } else {
-              response.json()
-                  .then((obj) => { reject(obj); }) // error msg in the response body
-                  .catch((err) => { reject({ errors: [{ param: "Application", msg: "Cannot parse server response" }] }) }); // something else
-          }
-      }).catch((err) => { reject({ errors: [{ param: "Server", msg: "Cannot communicate" }] }) }); // connection errors
+    fetch("/api/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: params,
+    })
+      .then((response) => {
+        if (response.ok) {
+          resolve(response.ok);
+        } else {
+          response
+            .json()
+            .then((obj) => {
+              reject(obj);
+            }) // error msg in the response body
+            .catch((err) => {
+              reject({
+                errors: [
+                  { param: "Application", msg: "Cannot parse server response" },
+                ],
+              });
+            }); // something else
+        }
+      })
+      .catch((err) => {
+        reject({ errors: [{ param: "Server", msg: "Cannot communicate" }] });
+      }); // connection errors
   });
 }
 
 function deleteMeme(id) {
   return new Promise((resolve, reject) => {
-    fetch('/api/meme/' + id, {
-      method: 'DELETE',
-    }).then((response) => {
-      console.log(`delete meme response: ${response.text}`);
-      if (response.ok) {
-        resolve(null);
-      } else {
-        // analyze the cause of error
-        response.json()
-          .then((message) => { reject(message); }) // error message in the response body
-          .catch(() => { reject({ error: "Cannot parse server response." }) }); // something else
+    fetch("/api/meme/" + id, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        if (response.ok) {
+          resolve(null);
+        } else {
+          // analyze the cause of error
+          response
+            .json()
+            .then((message) => {
+              reject(message);
+            }) // error message in the response body
+            .catch(() => {
+              reject({ error: "Cannot parse server response." });
+            }); // something else
         }
-    }).catch(() => { reject({ error: "Cannot communicate with the server." }) }); // connection errors
+      })
+      .catch(() => {
+        reject({ error: "Cannot communicate with the server." });
+      }); // connection errors
   });
 }
 
-
-const API = { logIn, logOut, getMemes, getAllMemes, createMeme, getUserInfo, deleteMeme, getRules };
+const API = {
+  logIn,
+  logOut,
+  getMemes,
+  getAllMemes,
+  createMeme,
+  getUserInfo,
+  deleteMeme,
+  getRules,
+};
 export default API;

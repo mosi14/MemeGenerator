@@ -10,7 +10,8 @@ const Navak = (props) => {
           <Navbar.Brand href="/">Home</Navbar.Brand>
           <h5 className="text-light">welcome {props.username.name}</h5>
           <Nav className="me-auto">
-            <Nav.Link href="/generator">Create Meme</Nav.Link>
+            {props.username.name === "creator"? <Nav.Link href="/generator">Create Meme</Nav.Link>:""}
+           
             <MylogOutButton logOut={props.logOut} />
             {/* <Nav.Link logOut={props.logOut} >Logout</Nav.Link> */}
           </Nav>

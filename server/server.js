@@ -133,7 +133,7 @@ app.get("/api/memeList", (req, res) => {
 });
 
 // GET /api/memeAllList
-app.get("/api/allMemeList", isLoggedIn, (req, res) => {
+app.get("/api/allMemeList", isLoggedIn, (req, res) => {console.log("api/memeList");
   dao
     .listAllMemes()
     .then((memeslist) => res.json(memeslist))
