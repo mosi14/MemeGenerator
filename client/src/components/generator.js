@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Container, Row, Col, Button } from "react-bootstrap";
+import { Image, Container, Row, Col, Button, Alert } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import "./generator.css";
 import API from "../API";
@@ -14,6 +14,7 @@ const MemeGenerate = (props) => {
   const [text1, setText1] = useState(location.meme ? location.meme.text1 : "");
   const [text2, setText2] = useState(location.meme ? location.meme.text2 : "");
   const [text3, setText3] = useState(location.meme ? location.meme.text3 : "");
+  const [error,setError]=useState(false);
   const [position1, setPosition1] = useState(
     location.meme ? location.meme.position1 : "50,10"
   );
@@ -24,7 +25,7 @@ const MemeGenerate = (props) => {
     location.meme ? location.meme.position3 : ""
   );
   const [numTxt, setnumTxt] = useState(
-    location.meme ? location.meme.numTxt : "props.imgRule[0].numTxt"
+    location.meme ? location.meme.numTxt : 3
   );
   const [font, setFont] = useState(
     location.meme ? location.meme.txtFont : "font-1"
@@ -66,13 +67,9 @@ const MemeGenerate = (props) => {
       );
 
       if (meme.text1 === "" && meme.text2 === "" && meme.text3 === "") {
-        console.log("inside iffff");
-        setFormErrors.text1 =
-          "At least one of the meme texts should be filled!";
-        form.reportValidity();
-        return;
+        setError(true);
       } else {
-        formErrors.text1 = "";
+        setError(false);
       }
 
       API.createMeme(JSON.stringify(meme))
@@ -91,47 +88,51 @@ const MemeGenerate = (props) => {
         });
     }
   };
-let left=0;
-let top=0;
-  const handleChange=(index)=>{
+  let pos1 ="";
+  const handleChange = (index) => {
+
     setImgId(index.target.value);
+    pos1 = props.imgRule[index.target.value -1].Position1;
+    let pos2 = props.imgRule[index.target.value -1].position2;
+    let pos3 = props.imgRule[index.target.value -1].position3;
+    let num = props.imgRule[index.target.value -1].numTxt;
 
-    // setposition1(oldPosition => {
-    //   return oldPosition.map(ex => {
-    //     if (ex.imgId === imgId)
-    //       return {position1 :ex.position1};
-    //     else
-    //       return ex;
-    //   });
+    setPosition1(pos1);
+    setPosition2(pos2);
+    setPosition3(pos3);
+    setnumTxt(num);
+    console.log(props.imgRule[index.target.value -1].position1);
+    console.log(position1);
+    // props.imgRule.forEach(function (meme) {
+    //   pos1 = [];
+    //   pos2 = [];
+    //   pos3 = [];
+    //   num = [];
+    //   if (meme.imgId.toString() === index.target.value.toString()) {
+    //     pos1.push(meme.position1);
+    //     pos2.push(meme.position2);
+    //     pos3.push(meme.position3);
+    //     num.push(meme.numTxt);
+    //   }
     // });
-    // console.log(position1);
 
-    // setposition1(oldposition =>{
-    //   return props.imgRule.map(ex =>{
-    //     if(ex.imgId===imgId)
-    //      return ex.position1;
-    //      console.log(position1);
-    //   })
-    // })
-    setnumTxt()
+    // setPosition1(pos1);
+    // setPosition1(pos2);
+    // setPosition1(pos3);
+    // setnumTxt(num);
+    console.log(
+      "posotion1: " +
+        position1 +
+        " position2: " +
+        position2 +
+        "   posotion3:  " +
+        position3 +
+        "   number of text: " +
+        numTxt
+    );
+  };
 
-    props.imgRule.map(x =>{ 
-      if(x.imgId === imgId)
-      {
-        // top = x.position1.split(",")[0];
-        // left = x.position1.split(",")[1];
-        left =x.position1;
-      }
-       // setPosition1(x.position1);
-
-       // console.log(position1);
-     }  )
-    console.log( top);
-    console.log( left);
-    // setPosition1(x.position1);
-
-}
-
+  const imgName = ["First", "Second", "Third", "Fourth"];
   return (
     <>
       <Container>
@@ -142,6 +143,7 @@ let top=0;
         >
           <Row className="mt-5">
             <Col>
+          {error ? <Alert key="form-error" variant="danger">At least one of the meme texts should be filled!</Alert>:""}
               <Form.Group
                 as={Row}
                 className="mb-3"
@@ -168,6 +170,7 @@ let top=0;
                     type="text"
                     onChange={(ev) => setText1(ev.target.value)}
                     value={text1}
+                    className= {error ? "border-danger": ""}
                   />
                   {numTxt > 1 ? (
                     <>
@@ -180,6 +183,7 @@ let top=0;
                         type="text"
                         onChange={(ev) => setText2(ev.target.value)}
                         value={text2}
+                        className= {error ? "border-danger": ""}
                       />
                     </>
                   ) : (
@@ -196,6 +200,7 @@ let top=0;
                         type="text"
                         onChange={(ev) => setText3(ev.target.value)}
                         value={text3}
+                        className= {error ? "border-danger": ""}
                       />
                     </>
                   ) : (
@@ -269,9 +274,73 @@ let top=0;
                   className="memeImageGenerator"
                   thumbnail
                 />
-                <lable style={{position: "absolute", left:{left}, top:{top}}} className={` ${font} ${color}`}>{text1}</lable>
-                <lable style={{position: "absolute", left:{left}, top:{top}}} className={`p-txt2 ${font} ${color}`}>{text2}</lable>
-                <lable className={`p-txt3 ${font} ${color}`}>{text3}</lable>
+                {numTxt > 0 ? (
+                  <p
+                    // style={{
+                    //   top: pos1.split(",")[0] + "px",
+                    //   left: pos1.split(",")[1] + "px",
+                    // }}
+                    className={`textpos ${font} ${color}`}
+                  >
+                    {text1}
+                  </p>
+                ) : (
+                  ""
+                )}
+                {numTxt > 1 ? (
+                  <p
+                    // style={{
+                    //   top: pos2.split(",")[0] + "px",
+                    //   left: pos2.split(",")[1] + "px",
+                    // }}
+                    className={`textpos ${font} ${color}`}
+                  >
+                    {text2}
+                  </p>
+                ) : (
+                  ""
+                )}
+                {numTxt > 2 ? (
+                  <p
+                    // style={{
+                    //   top: pos3.split(",")[0] + "px",
+                    //   left: pos3.split(",")[1] + "px",
+                    // }}
+                    className={`textpos ${font} ${color}`}
+                  >
+                    {text3}
+                  </p>
+                ) : (
+                  ""
+                )}
+
+                {/* <lable
+                  style={{
+                    top: pos1.split(",")[0] + "px",
+                    left: pos1.split(",")[1] + "px",
+                  }}
+                  className={`textpos ${font} ${color}`}
+                >
+                  {text1}
+                </lable>
+                <lable
+                  // style={{
+                  //   top: pos2.split(",")[0] + "px",
+                  //   left: pos2.split(",")[1] + "px",
+                  // }}
+                  className={`textpos ${font} ${color}`}
+                >
+                  {text2}
+                </lable>
+                <lable
+                  // style={{
+                  //   top: pos3.split(",")[0] + "px",
+                  //   left: pos3.split(",")[1] + "px",
+                  // }}
+                  className={`textpos ${font} ${color}`}
+                > 
+                  {text3}
+                </lable> */}
               </div>
               <div>
                 <select
@@ -282,10 +351,13 @@ let top=0;
                 >
                   {/* <option>Choose one </option> */}
                   <optgroup label="Choose one">
-                    <option value="1">First meme</option>
-                    <option value="2">Second meme</option>
-                    <option value="3">Third meme</option>
-                    <option value="4">Fourth meme</option>
+                    {props.imgRule.map((x,index) => {
+                      return (
+                        <option value={x.imgId}>
+                          {imgName[index]} meme
+                        </option>
+                      );
+                    })}
                   </optgroup>
                 </select>
               </div>
